@@ -1,0 +1,34 @@
+.data-header-title {
+  font-size: 1.6rem;
+  padding-left: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+.data-header-help-icon {
+  padding-right: 0.5rem;
+}
+
+.add-data-source-container {
+  background-color: #f8f9fa;
+}
+
+
+.add-data-source-step {
+  height: 6rem;
+  padding: 1rem;
+}
+
+.add-data-source-step span {
+  margin: 0.3rem;
+}
+
+.add-data-source-card-upload-file {
+  padding: 2rem;
+  height: 25rem;
+}
+
+.add-data-source-card-upload-file > .add-data-source-card-upload-tips {
+  border: dashed 2px #17a2b8;
+  height: 15rem;
+
+}
