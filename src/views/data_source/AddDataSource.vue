@@ -54,9 +54,17 @@
               <nly-row row-class="nly-data-analysis-padding-1">
                 <nly-col>
                   <span>
-                    <nly-link>{{
+                    <nly-link @click="addDataFile">{{
                       this.$lang.addDataSource.uploadLinkText
                     }}</nly-link>
+                    <input
+                      id="upload-file-input"
+                      type="file"
+                      name="image"
+                      class="nly-data-analysis-upload-file-input"
+                      value=""
+                      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,.csv"
+                    />
                     {{ this.$lang.addDataSource.uploadDragText }}
                   </span>
                 </nly-col>
@@ -115,6 +123,10 @@ export default {
     dropbox.removeEventListener("drop", this.drapFileEnter, true);
   },
   methods: {
+    addDataFile() {
+      const inputEle = document.getElementById("upload-file-input");
+      inputEle.click();
+    },
     getTargetNode(ele, target) {
       //ele是内部元素，target是你想找到的包裹元素
       if (!ele || ele === document) return false;

@@ -43,3 +43,7 @@
 .nly-data-analysis-backgroup-gray {
   background-color: #f8f9fa;
 }
+
+.nly-data-analysis-upload-file-input {
+  display: none;
+}

@@ -13,7 +13,7 @@ const routes = [
     component: Home
   },
   {
-    path: "/add_aata_source",
+    path: "/add_data_source",
     name: "AddDataSource",
     component: AddDataSource
   }
