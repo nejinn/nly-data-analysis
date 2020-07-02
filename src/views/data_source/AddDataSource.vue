@@ -112,15 +112,16 @@ export default {
   mounted: function() {
     const dropbox = document.getElementById("upload-file");
     dropbox.addEventListener("drop", this.drapFileConfirm);
-    dropbox.addEventListener("dragleave", this.drapFileLeave, true);
+    dropbox.addEventListener("dragleave", this.drapFileLeave);
     dropbox.addEventListener("dragenter", this.drapFileEnter);
     dropbox.addEventListener("dragover", this.drapFileOver);
   },
   beforeDestroy() {
     const dropbox = document.getElementById("upload-file");
-    dropbox.removeEventListener("drop", this.drapFileEnter, true);
-    dropbox.removeEventListener("drop", this.drapFileEnter, true);
-    dropbox.removeEventListener("drop", this.drapFileEnter, true);
+    dropbox.removeEventListener("drop", this.drapFileConfirm, true);
+    dropbox.removeEventListener("dragleave", this.drapFileLeave, true);
+    dropbox.removeEventListener("dragenter", this.drapFileEnter, true);
+    dropbox.removeEventListener("dragover", this.drapFileOver, true);
   },
   methods: {
     addDataFile() {
@@ -128,18 +129,15 @@ export default {
       inputEle.click();
     },
     getTargetNode(ele, target) {
-      //ele是内部元素，target是你想找到的包裹元素
       if (!ele || ele === document) return false;
       return ele === target ? true : this.getTargetNode(ele.parentNode, target);
     },
     drapFileConfirm(e) {
-      console.log(1);
       this.drapFileHover = false;
       e.stopPropagation();
-      e.preventDefault(); //必填字段
-      let fileData = e.dataTransfer.files;
-      console.log(fileData);
-      this.uploadFile(fileData);
+      e.preventDefault();
+      const fileDataList = e.dataTransfer.files;
+      this.uploadFile(fileDataList);
     },
     drapFileLeave(e) {
       const target = document.getElementById("upload-file");
@@ -160,28 +158,45 @@ export default {
       this.drapFileHover = true;
     },
     uploadFile: function(file) {
-      //渲染上传文件
-      for (let i = 0; i !== file.length; i++) {
-        let fileJson = {
-          Url: "",
-          progressStatl: 0,
-          fileText: ""
-        };
-        let video_type =
-          file[i].type == "video/mp4" || file[i].type == "video/ogg";
-        if (file[i].type.indexOf("image") === 0) {
-          //如果是图片
-          let fileurl = window.URL.createObjectURL(file[i]); //创建一个url连接,供src属性引用
-          fileJson.Url = fileurl;
-        } else if (video_type) {
-          // eslint-disable-next-line no-unused-vars
-          let fileurl = window.URL.createObjectURL(file[i]); //创建一个url连接,供src属性引用
-        } else {
-          alert("不支持此类型文件");
+      const acceptType = [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel",
+        ".csv"
+      ];
+
+      const fileTypeList = [];
+      file.forEach(element => {
+        if (acceptType.indexOf(element.type) === -1) {
+          fileTypeList.push(element);
         }
-        fileJson.fileText = file[i].name;
-        this.fileData.push(fileJson);
+      });
+
+      if (fileTypeList.length > 0) {
+        const noAcceptList = [];
+        fileTypeList.forEach(element => {
+          noAcceptList.push(element.name);
+        });
+        const obj = this;
+        const toastVnode = {
+          content: this.$lang.addDataSource.uploadFileToast.content,
+          message: `${noAcceptList.join(",  ")} ${
+            this.$lang.addDataSource.uploadFileToast.message
+          }`,
+          title: this.$lang.addDataSource.uploadFileToast.title,
+          variant: this.$lang.addDataSource.uploadFileToast.variant
+        };
+        this.$toast.Toast(obj, toastVnode);
+        return;
       }
+
+      this.fileData = file;
+      const fd = new FormData();
+      this.fileData.forEach(element => {
+        fd.append("excelFile", element, element.name);
+      });
+      const obj = this;
+
+      this.$api.addDataSource.getReturnData(obj, fd);
     }
   }
 };

@@ -14,7 +14,12 @@ Vue.use(NlyAdminlteVueIcons);
 import i18n from "./i18n";
 import "./assets//css/nly-data-analysis.css";
 
+import toast from "./utils/toast";
+import Api from "./utils/http";
+
 Vue.prototype.$lang = i18n.zh;
+Vue.prototype.$toast = toast;
+Vue.prototype.$api = Api;
 
 Vue.config.productionTip = false;
 
