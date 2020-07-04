@@ -24,7 +24,7 @@
 
 .add-data-source-card-upload-file {
   padding: 2rem;
-  height: 25rem;
+  /* height: 37rem; */
 }
 
 .add-data-source-card-upload-file > .add-data-source-card-upload-tips {
@@ -34,6 +34,14 @@
 
 .nly-data-analysis-padding-1 {
   padding: 1rem;
+}
+
+.nly-data-analysis-margin-1 {
+  margin-top: 1rem;
+}
+
+.nly-data-analysis-margin-2 {
+  margin-top: 2rem;
 }
 
 .nly-data-analysis-opacity-1 {
@@ -46,4 +54,12 @@
 
 .nly-data-analysis-upload-file-input {
   display: none;
+}
+
+
+.nly-data-analysis-preview-data-table {
+  white-space:nowrap;
+  overflow:hidden;
+  word-break:keep-all;
+  min-width: 5rem;
 }

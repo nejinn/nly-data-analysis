@@ -3,7 +3,7 @@ import store from "../../store";
 // import qs from "qs";
 import router from "../../router";
 
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 50000;
 axios.defaults.baseURL = "http://127.0.0.1:8000/";
 
 // http request 拦截器
@@ -142,6 +142,25 @@ export default {
     return new Promise((resolve, reject) => {
       axios
         .post(url, data)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  nlyUpdateFile: function(url, data = {}, config = {}) {
+    /**
+     * 封装post请求，创建数据
+     * demo url 127.0.0.1:8000/api/project/create/
+     * @param url
+     * @param data
+     * @returns {Promise}
+     */
+    return new Promise((resolve, reject) => {
+      axios
+        .post(url, data, config)
         .then(response => {
           resolve(response);
         })
